@@ -35,20 +35,6 @@ class Users extends CI_Controller {
 				$this->session->set_flashdata("reg_errors", "reg failed");
 			}
 			redirect('/');	
-			// $this->load->view("messages")	
-			// $insert_user = $this->User->insert_user($user_input);
-			// $get_user = $this->User->get_user($this->input->post());
-			
-			// if($insert_user){				
-			// 	// $this->session->set_userdata("user_session", $user_input);
-			// 	$this->session->set_userdata("user_session", $get_user);
-			// 	redirect(base_url('/Products/storeView'));
-			// }
-			// else{
-			// 	$this->session->set_flashdata("registration_errors", "registration failed");
-			// 	$this->load->view('/Products/storeView');
-			// }
-		// }
 	}
 
 	public function login()
@@ -72,82 +58,15 @@ class Users extends CI_Controller {
 			else{
 				$this->session->set_flashdata('login_errors', 'Invalid email and/or password');
 			}
-			redirect('/');
+			redirect(base_url('/'));
 		// }
 	}
 
 
-// 	public function signOut() {
-		
-// 		$this->session->sess_destroy();
-		
-// 		redirect(base_url("/Products/storeView"));
-
-// 	}
-
-// 	public function storeView() {
-// 		$this->load->view('storeView');
-// 	}
-
-// 	public function checkout()
-// 	{
-// 		$this->output->enable_profiler(TRUE);
-// 		$this->load->view('checkout');
-// 	}
-// 	public function addAddress()
-// 	{
-// 		$this->load->library("form_validation");
-// 		$this->form_validation->set_rules("firstNameS", "First Name", "trim|required");
-// 		$this->form_validation->set_rules("lastNameS", "Last Name", "trim|required");
-// 		$this->form_validation->set_rules("streetS", "Address", "trim|required");
-// 		$this->form_validation->set_rules("apt2S", "Apartment Number", "trim");
-// 		$this->form_validation->set_rules("cityS", "City", "trim|required");
-// 		$this->form_validation->set_rules("stateS", "State", "trim|required");
-// 		$this->form_validation->set_rules("zipcodeS", "Zipcode", "trim|required");
-
-
-// 		if($this->form_validation->run() === FALSE)
-// 		{
-// 			$this->session->set_flashdata("shipping_errors", validation_errors());
-// 			$this->load->view('/cart');
-// 		}
-
-// 		else 
-// 		{
-// 			$addressInfo['addressInfo'] = $this->input->post();
-// 			$this->load->model("User");
-// 			$this->User->insertAddress($addressInfo['addressInfo']);
-// // insert database success code
-
-// 			$this->load->view("checkout", $addressInfo);
-			
-// 			// $this->load->model("User");
-// 			// $user_input = $this->input->post();			
-// 			// $insert_user = $this->User->insert_user($user_input);
-			
-// 			// if($insert_user)
-// 			// {				
-// 			// 	$this->session->set_userdata("user_session", $user_input);
-// 			// 	redirect(base_url("/Products/storeView"));
-// 			// }
-// 			// else
-// 			// {
-// 			// 	$this->session->set_flashdata("registration_errors", "registration failed");
-// 			// 	$this->load->view('/Products/storeView');
-// 			// }
-// 		}
-
-// 	}
-
-
-// 	public function cart()
-// 	{
-// 		$this->output->enable_profiler(TRUE);
-// 		// var_dump($this->input->post());
-// 		// die();
-// 		$this->load->view('cart');
-// 	}
-	
+	public function logout() {
+		$this->session->sess_destroy();
+		redirect(base_url('/'));
+	}
 
 }
 

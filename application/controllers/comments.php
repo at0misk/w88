@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class messages extends CI_Controller {
+class comments extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -21,18 +21,16 @@ class messages extends CI_Controller {
 	public function index(){
 		$this->load->model("message");
 		$messages['allMessages'] = $this->message->get_all_messages();
-		$this->load->model("comment");
-		$messages['comments'] = $this->comment->get_all_comments();
 		// var_dump($allMessages);
 		// die;
 		$this->load->view('messages', $messages);
 	}
 	public function new(){
-		$messageArr = $this->input->post();
-		$messageArr['user_id'] = $this->session->current["id"];
-		$this->load->model("message");
-		$addMessage = $this->message->addNewMessage($messageArr);
-		if($addMessage){
+		$commentArr = $this->input->post();
+		$commentArr['user_id'] = $this->session->current["id"];
+		$this->load->model("comment");
+		$addComment = $this->comment->addNewComment($commentArr);
+		if($addComment){
 			$this->session->set_flashdata("messageSucc", "Success adding message");
 		}
 		else{

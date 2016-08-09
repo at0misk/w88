@@ -21,6 +21,19 @@
 		float: right;
 		margin-right: 2%;
 	}
+	#logout{
+		display: inline;
+		float: right;
+		margin-right: 2%;	
+	}
+	#logoutform{
+		display: inline;
+	}
+	#messageForm{
+		margin-top: 5%;
+		padding: 1%;
+		border: 1px solid #eee;;
+	}
 	#register{
 		display: inline;
 		float: right;
@@ -28,7 +41,7 @@
 	}
 	.page-header{
 		padding-bottom: 25px;
-    	margin: 30px 0 20px;
+    	margin: 30px 0px 0px;
 	}
 	.page-header h2{
 		display: inline;
@@ -37,6 +50,17 @@
 	}
 	.btn-danger{
 		margin-top: 1%;
+	}
+	.red{
+		color: red;
+		margin-left: 5%;
+	}
+	.write{
+		text-align: center;
+	}
+	.container{
+		/*background: gray;*/
+		border: 1px solid #eee;;
 	}
 </style>
 </head>
@@ -65,7 +89,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+          <button type="button" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
           <p>Not a member? <a href="#">Sign Up</a></p>
           <p>Forgot <a href="#">Password?</a></p>
         </div>
@@ -112,19 +136,72 @@
 <?php
 	if($this->session->current){
 		// echo $x;
-		echo "<h2>Welcome to The Wall, " . $this->session->current['first'] . " " . $this->session->current['last'];
+		echo "<h2>Welcome to The Wall, " . $this->session->current['first'] . " " . $this->session->current['last'] . "</h2>";
 	}
 	else{
 		echo "<h2>Welcome to The Wall</h2>";
 	}
 ?>
-	<button type="button" class="btn btn-default btn-md" id="register">Register</button>
-	<button type="button" class="btn btn-default btn-md" id="login">Login</button>
-	</div>
+<span class="red">
 <?php
 	if($this->session->flashdata('login_errors')){
 		echo ($this->session->flashdata('login_errors'));
 	}
 ?>
+</span>
+<?php
+	if(!$this->session->current){
+		echo "<button type='button' class='btn btn-default btn-md' id='register'>Register</button>";
+		echo "<button type='button' class='btn btn-default btn-md' id='login'>Login</button>";
+	}
+	else{
+		echo "<form id='logoutform' action='users/logout'>";
+		echo "<button type='submit' class='btn btn-default btn-md' id='logout'>Logout</button>";
+		echo "</form>";
+	}
+?>
+	</div>
+	<div class="container">
+		<h1 class="write">Write a Message!</h1>
+		<form id="messageForm" action='messages/new' class="form-horizontal" method="POST">
+		  <div class="form-group">
+    		<label class="col-sm-2" for="title">Title:</label>
+    		<div class="col-sm-4">
+			<input class="form-control" type="text" placeholder="Title" name="title">
+			</div>
+			</div>
+			<div class="form-group">
+			<label class="col-sm-2" for="content">Message:</label>
+    		<div class="col-sm-4">
+			<textarea name="content" class="form-control"></textarea>
+			</div>
+			</div>
+			<!-- <input type="submit" value="" -->
+			<button type='submit' class='btn btn-default btn-md' id='postMessage'>Submit!</button>
+		</form>
+<?php
+	foreach($allMessages as $message){
+		echo "<h3>" . $message['title'] . "</h3>";
+		echo "<h4>" . $message['first'] . " " . $message['last'] . "</h4>";
+		echo "<p>" . $message['content'] . "</p>";
+		foreach($comments as $comment){
+			if($comment['Messages_id'] == $message['id']){
+				echo "<p><b>" . $comment['content'] . "</b></p>";
+				echo "<p><b> - " . $comment['first'] . " " . $comment['last'] . "</b></p>";
+			}
+		}
+		echo "<form id='commentForm" . $message['id'] . "' action='comments/new' class='form-horizontal' method='POST'>";
+		echo "<div class='form-group'>";
+		echo "<label class='col-sm-2' for='content'>Comment:</label>";
+		echo "<div class='col-sm-4'>";
+		echo "<textarea name='content' class='form-control'></textarea>";
+		echo "</div>";
+		echo "</div>";
+		echo "<input type='hidden' name='message_id' value='" . $message['id'] . "'>";
+		echo "<button type='submit' class='btn btn-default btn-md' id='postComment'>Comment!</button>";
+		echo "</form>";
+	}
+?>
+	</div>
 </body>
 </html>
